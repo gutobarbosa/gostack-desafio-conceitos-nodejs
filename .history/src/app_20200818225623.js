@@ -12,10 +12,10 @@ const repositories = [];
 
 app.get("/repositories", (request, response) => {
 
+  
   return response.json( repositories);
 });
-
-
+const repositorie
 app.post("/repositories", (request, response) => {
   const {title,url,techs,likes} = request.body;
   const repositorie = { id: uuid(),title,url,techs,likes};
@@ -78,7 +78,7 @@ app.post("/repositories/:id/like", (request, response) => {
     })
 }
 const repositorie = repositories[repositorieIndex];
-repositorie.likes = repositorie.likes + 1;
+//repositorie.likes += 1;
 
   return response.json(repositorie);
 });

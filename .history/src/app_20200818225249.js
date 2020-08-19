@@ -9,13 +9,22 @@ app.use(cors());
 
 const repositories = [];
 
+function validateLikes(request,response,next){
+  const {id} = request.params;
+  const {likes}= request.body;
+
+  if(!isUuid(id)){
+     return response.status(400).json({error: 'Invalid project ID'}); 
+  }
+  return next();
+}
 
 app.get("/repositories", (request, response) => {
 
+  
   return response.json( repositories);
 });
-
-
+const repositorie
 app.post("/repositories", (request, response) => {
   const {title,url,techs,likes} = request.body;
   const repositorie = { id: uuid(),title,url,techs,likes};

@@ -78,7 +78,7 @@ app.post("/repositories/:id/like", (request, response) => {
     })
 }
 const repositorie = repositories[repositorieIndex];
-repositorie.likes = repositorie.likes + 1;
+//repositorie.likes += 1;
 
   return response.json(repositorie);
 });

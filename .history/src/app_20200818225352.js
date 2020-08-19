@@ -9,13 +9,22 @@ app.use(cors());
 
 const repositories = [];
 
+function validateLikes(request,response,next){
+  const {id} = request.params;
+  const {likes}= request.body;
+
+  if(!isUuid(id)){
+     return response.status(400).json({error: 'Invalid project ID'}); 
+  }
+  return next();
+}
 
 app.get("/repositories", (request, response) => {
 
+  
   return response.json( repositories);
 });
-
-
+const repositorie
 app.post("/repositories", (request, response) => {
   const {title,url,techs,likes} = request.body;
   const repositorie = { id: uuid(),title,url,techs,likes};
@@ -70,7 +79,7 @@ app.delete("/repositories/:id", (request, response) => {
 app.post("/repositories/:id/like", (request, response) => {
   const {id} = request.params;
 
-  const repositorieIndex = repositories.findIndex(repositorie => repositorie.id == id);
+  const repositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
   
   if(repositorieIndex < 0){
     return response.status(400).json({
@@ -78,7 +87,7 @@ app.post("/repositories/:id/like", (request, response) => {
     })
 }
 const repositorie = repositories[repositorieIndex];
-repositorie.likes = repositorie.likes + 1;
+//repositorie.likes += 1;
 
   return response.json(repositorie);
 });

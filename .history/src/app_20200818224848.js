@@ -9,12 +9,21 @@ app.use(cors());
 
 const repositories = [];
 
+function validateLikes(request,response,next){
+  const {id} = request.params;
+  const {likes}= request.body;
+
+  if(!isUuid(id)){
+     return response.status(400).json({error: 'Invalid project ID'}); 
+  }
+  return next();
+}
 
 app.get("/repositories", (request, response) => {
 
+  
   return response.json( repositories);
 });
-
 
 app.post("/repositories", (request, response) => {
   const {title,url,techs,likes} = request.body;
@@ -68,18 +77,27 @@ app.delete("/repositories/:id", (request, response) => {
 });
 
 app.post("/repositories/:id/like", (request, response) => {
+ // const {url,title,techs} = request.body;
   const {id} = request.params;
+  var {likes,title,url,techs} = request.body;
+  likes = likes + 1;
 
   const repositorieIndex = repositories.findIndex(repositorie => repositorie.id == id);
-  
   if(repositorieIndex < 0){
     return response.status(400).json({
         error: "Repositorie not found."
     })
 }
-const repositorie = repositories[repositorieIndex];
-repositorie.likes = repositorie.likes + 1;
-
+  const repositorie = {
+    likes,
+    title,
+    url,
+    techs,
+    id,
+    
+  };
+  repositories[repositorieIndex] = repositorie;
+ // repositories.push(repositorie);
   return response.json(repositorie);
 });
 
